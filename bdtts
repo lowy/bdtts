@@ -6,9 +6,11 @@ if [ $? != 0 ]; then
 	exit
 fi
 
-
-
-say() {
-mpg123 -q "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&text=$*";
-}
-say $*
+if [ "$1" = "-s" ];then
+	mpg123 -q "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&text=$2"
+elif [ "$1" = "-g" ];then
+	wget -c "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&text=$2" -O /tmp/`date +%T`.mp3 
+else
+	mpg123 -q "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&text=$*"
+	wget -c "http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&spd=5&text=$*" -O /tmp/`date +%T`.mp3
+fi
